@@ -157,8 +157,10 @@ group by giangvien.magv
 having count(masv) > 1 ;
 
 -- cau 12
-select madt, tendt, max(kinhphi) as kinhphicaonhat
-from detai;
+select madt, tendt, kinhphi
+from detai
+group by madt
+order by kinhphi desc;
 
 -- cau 13
 select detai.madt, detai.tendt
