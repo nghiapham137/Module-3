@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+}
+#header {
+    height: 100px;
+    width: 100%;
+    background: lightblue;
+}
+
+
+#main {
+    height: 500px;
+    width: 70%;
+    background: antiquewhite;
+    float: left;
+}
+#side-bar {
+    height: 500px;
+    width: 30%;
+    background: aquamarine;
+    float: left;
+}
+
+#footer {
+    background: darkgray;
+    height: 100px;
+    width: 100%;
+    clear: both;
+}
