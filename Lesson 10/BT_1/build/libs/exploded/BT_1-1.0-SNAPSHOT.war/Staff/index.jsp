@@ -36,7 +36,7 @@
               <td>${item.name}</td>
               <td>${item.birthday}</td>
               <td>${item.address}</td>
-              <td><img class="img-fluid" src="${item.imageUrl}"></td>
+              <td><img src="${item.imageUrl}" style="width: 100px; height: 100px"></td>
             </tr>
           </c:forEach>
           </tbody>

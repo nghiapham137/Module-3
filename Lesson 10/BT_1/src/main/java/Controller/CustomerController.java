@@ -38,10 +38,10 @@ public class CustomerController extends HttpServlet {
 
     protected ArrayList<Customer> getAll() {
         ArrayList<Customer> customerList = new ArrayList<>();
-        customerList.add(new Customer("Phạm Anh Nghĩa", "1994-07-13", "Hà Nội", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbaocantho.com.vn%2F-captain-marvel-phim-ve-nu-sieu-anh-hung-duoc-cho-doi-a107377.html&psig=AOvVaw29dhkYMBRSDp6Y2YTmTt-9&ust=1600441176708000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCNiOupC68OsCFQAAAAAdAAAAABAD"));
-        customerList.add(new Customer("Nguyễn Văn Nam", "1994-07-14", "Bắc Giang", "main/Images/a.jpg"));
-        customerList.add(new Customer("Nguyễn Thái Hòa", "1994-07-15", "Nghệ An", "main/Images/a.jpg"));
-        customerList.add(new Customer("Trần Đăng Khoa", "1994-07-16", "Quảng Bình", "main/Images/a.jpg"));
+        customerList.add(new Customer("Phạm Anh Nghĩa", "1994-07-13", "Hà Nội", "https://baocantho.com.vn/image/fckeditor/upload/2019/20190314/images/marvel.jpg"));
+        customerList.add(new Customer("Nguyễn Văn Nam", "1994-07-14", "Bắc Giang", "https://baocantho.com.vn/image/fckeditor/upload/2019/20190314/images/marvel.jpg"));
+        customerList.add(new Customer("Nguyễn Thái Hòa", "1994-07-15", "Nghệ An", "https://baocantho.com.vn/image/fckeditor/upload/2019/20190314/images/marvel.jpg"));
+        customerList.add(new Customer("Trần Đăng Khoa", "1994-07-16", "Quảng Bình", "https://baocantho.com.vn/image/fckeditor/upload/2019/20190314/images/marvel.jpg"));
         return customerList;
     }
 
