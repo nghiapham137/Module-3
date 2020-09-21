@@ -41,8 +41,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findByName(int id) {
+    public Product findById(int id) {
         return products.get(id);
+    }
+
+    @Override
+    public Product findByName(String productName) {
+        for (Integer i : products.keySet()) {
+            if (products.get(i).getProductName().equalsIgnoreCase(productName)) {
+                return products.get(i);
+            }
+        }
+        return null;
     }
 
 

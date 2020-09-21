@@ -32,6 +32,9 @@ public class ProductServlet extends HttpServlet {
             case "delete":
                 deleteProduct(request, response);
                 break;
+            case "search":
+                showSearchCustomer(request, response);
+                break;
             default:
                 break;
         }
@@ -55,6 +58,7 @@ public class ProductServlet extends HttpServlet {
             case "view":
                 viewCustomer(request,response);
                 break;
+
             default:
                 listProducts(request,response);
                 break;
@@ -110,7 +114,7 @@ public class ProductServlet extends HttpServlet {
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) {
 //        String productName = request.getParameter("productName");
         int id = Integer.parseInt(request.getParameter("id"));
-        Product product = this.productService.findByName(id);
+        Product product = this.productService.findById(id);
         RequestDispatcher dispatcher;
         if (product == null) {
             dispatcher = request.getRequestDispatcher("error-404.jsp");
@@ -134,7 +138,7 @@ public class ProductServlet extends HttpServlet {
         String description = request.getParameter("description");
         String maker = request.getParameter("maker");
 
-        Product product = this.productService.findByName(id);
+        Product product = this.productService.findById(id);
         RequestDispatcher dispatcher;
         if (product == null) {
             dispatcher = request.getRequestDispatcher("error-404.jsp");
@@ -159,7 +163,7 @@ public class ProductServlet extends HttpServlet {
 
     private void showDeleteForm(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
-        Product product = this.productService.findByName(id);
+        Product product = this.productService.findById(id);
         RequestDispatcher dispatcher;
         if (product == null) {
             dispatcher = request.getRequestDispatcher("error-404.jsp");
@@ -179,7 +183,7 @@ public class ProductServlet extends HttpServlet {
 
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
-        Product product = this.productService.findByName(id);
+        Product product = this.productService.findById(id);
         RequestDispatcher dispatcher;
         if (product == null) {
             dispatcher = request.getRequestDispatcher("error-404.jsp");
@@ -202,7 +206,7 @@ public class ProductServlet extends HttpServlet {
 
     private void viewCustomer(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
-        Product product = this.productService.findByName(id);
+        Product product = this.productService.findById(id);
         RequestDispatcher dispatcher;
         if (product == null) {
             dispatcher = request.getRequestDispatcher("error-404.jsp");
@@ -216,6 +220,24 @@ public class ProductServlet extends HttpServlet {
         }catch (ServletException e) {
             e.printStackTrace();
         }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showSearchCustomer(HttpServletRequest request, HttpServletResponse response) {
+        String productName = request.getParameter("productName");
+        Product product = this.productService.findByName(productName);
+        RequestDispatcher dispatcher;
+        if (product == null) {
+            dispatcher = request.getRequestDispatcher("error-404.jsp");
+        }else {
+            request.setAttribute("product", product);
+            dispatcher = request.getRequestDispatcher("product/search.jsp");
+        }
+
+        try {
+            dispatcher.forward(request, response);
+        }catch (ServletException | IOException e) {
             e.printStackTrace();
         }
     }

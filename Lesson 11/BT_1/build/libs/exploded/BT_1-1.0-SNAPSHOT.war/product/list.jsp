@@ -16,6 +16,11 @@
 <p>
     <a href="/products?action=add">Add new customer</a>
 </p>
+<form method="post" action="/products?action=search">
+    <input type="text" name="productName" placeholder="Search by product name">
+    <input type="submit" value="Search">
+</form>
+
 <table border="1">
     <tr>
         <td>Product Name</td>
