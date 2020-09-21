@@ -1,7 +1,9 @@
 package dao;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import model.User;
 
+import javax.servlet.ServletOutputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +18,11 @@ public class UserDao implements IUserDao {
     private static final String SELECT_ALL_USERS = "select * from users;";
     private static final String DELETE_USER_SQL = "delete from users where id=?;";
     private static final String UPDATE_USER_SQL = "update users set name=?, email=?,country=? where id=?;";
+    private static final String SELECT_USER_BY_COUNTRY = "select * from users where country=?;";
 
     public UserDao(){};
 
-    protected Connection getConnection() {
+     protected Connection getConnection() {
         Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -105,6 +108,27 @@ public class UserDao implements IUserDao {
             rowUpdate = preparedStatement.executeUpdate() > 0;
         }
         return rowUpdate;
+    }
+
+    @Override
+    public List<User> findUserByCountry(String country) {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_COUNTRY)){
+            preparedStatement.setString(1, country);
+            System.out.println(preparedStatement);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
+//                String country = resultSet.getString("country");
+                users.add(new User(id, name, email, country));
+            }
+
+        } catch (SQLException e ){
+            printSQLException(e);
+        }
+        return users;
     }
 
     private void printSQLException(SQLException ex) {
