@@ -18,5 +18,8 @@ public interface IUserDao {
     void addUserTransaction(User user, int[] permissions);
     void insertUpdateWithoutTransaction();
     void insertUpdateWithTransaction();
+    List<User> showAllUsersStore();
+    boolean updateUserStore(User user) throws SQLException;
+    boolean deleteUserStore(int id) throws SQLException;
 
 }
