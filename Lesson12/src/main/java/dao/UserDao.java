@@ -115,21 +115,28 @@ public class UserDao implements IUserDao {
 
     @Override
     public List<User> findUserByCountry(String country) {
+//        List<User> users = new ArrayList<>();
+//        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_COUNTRY)){
+//            preparedStatement.setString(1, country);
+//            System.out.println(preparedStatement);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            while (resultSet.next()) {
+//                int id = resultSet.getInt("id");
+//                String name = resultSet.getString("name");
+//                String email = resultSet.getString("email");
+////                String country = resultSet.getString("country");
+//                users.add(new User(id, name, email, country));
+//            }
+//
+//        } catch (SQLException e ){
+//            printSQLException(e);
+//        }
+        List<User> users1 = selectAllUsers();
         List<User> users = new ArrayList<>();
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_COUNTRY)){
-            preparedStatement.setString(1, country);
-            System.out.println(preparedStatement);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String email = resultSet.getString("email");
-//                String country = resultSet.getString("country");
-                users.add(new User(id, name, email, country));
+        for (User user : users1) {
+            if (user.getCountry().contains(country)) {
+                users.add(user);
             }
-
-        } catch (SQLException e ){
-            printSQLException(e);
         }
         return users;
     }
