@@ -68,6 +68,8 @@ public class UserServlet extends HttpServlet {
                 case "test_without_tran":
                     testWithoutTran(request, response);
                     break;
+                case "test_with_tran":
+                    testWithTran(request, response);
                 default:
                     listUser(request,response);
                     break;
@@ -155,5 +157,9 @@ public class UserServlet extends HttpServlet {
 
     private void testWithoutTran(HttpServletRequest request, HttpServletResponse response) {
         userDao.insertUpdateWithoutTransaction();
+    }
+
+    private void testWithTran(HttpServletRequest request, HttpServletResponse response) {
+        userDao.insertUpdateWithTransaction();
     }
 }
