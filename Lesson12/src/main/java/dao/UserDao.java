@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.Callable;
 
 public class UserDao implements IUserDao {
     private String jdbcUrl="jdbc:mysql://localhost:3306/demo1?useSSL=false";
@@ -135,22 +136,44 @@ public class UserDao implements IUserDao {
 
     @Override
     public List<User> sortByName() {
-        List<User> users = new ArrayList<>();
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS )){
-            System.out.println(preparedStatement);
-            ResultSet resultSet = preparedStatement.executeQuery();
+         List<User> Listusers = selectAllUsers();
+        Collections.sort(Listusers);
+        return Listusers;
+    }
+
+    @Override
+    public User getUserById(int id) {
+        User user = null;
+        String query = "{call get_user_by_id(?)}";
+        try (Connection connection = getConnection();
+        CallableStatement callableStatement = connection.prepareCall(query)) {
+            callableStatement.setInt(1, id);
+            ResultSet resultSet = callableStatement.executeQuery();
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String email = resultSet.getString("email");
                 String country = resultSet.getString("country");
-                users.add(new User(id, name, email, country));
+                user = new User(id, name, email, country);
             }
-            Collections.sort(users);
         }catch (SQLException e) {
             printSQLException(e);
         }
-        return users;
+        return user;
+    }
+
+    @Override
+    public void insertUserStore(User user) throws SQLException {
+        String query = "{CALL insert_user(?,?,?)}";
+        try (Connection connection = getConnection();
+        CallableStatement callableStatement = connection.prepareCall(query)){
+            callableStatement.setString(1, user.getName());
+            callableStatement.setString(2, user.getEmail());
+            callableStatement.setString(3, user.getCountry());
+            System.out.println(callableStatement);
+            callableStatement.executeUpdate();
+        }catch (SQLException e) {
+            printSQLException(e);
+        }
     }
 
 
