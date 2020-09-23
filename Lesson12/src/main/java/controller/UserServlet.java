@@ -155,7 +155,7 @@ public class UserServlet extends HttpServlet {
 
     private void addUserPermision(HttpServletRequest request, HttpServletResponse response) {
         User user = new User("kien", "kienhoang@gmail.com", "vn");
-        int[] permissions = {1,2,4};
+        int[] permissions = {1,2,3};
         userDao.addUserTransaction(user, permissions);
     }
 
