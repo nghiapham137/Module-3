@@ -32,6 +32,21 @@ public class CityController extends HttpServlet {
             case "addCity":
                 addCity(request,response);
                 break;
+            case "delete":
+                try {
+                    deleteCity(request,response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "edit":
+                try {
+                    editCityInformation(request,response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+
         }
 
     }
@@ -50,12 +65,8 @@ public class CityController extends HttpServlet {
             case "addCity":
                 showAddForm(request,response);
                 break;
-            case "delete":
-                try {
-                    deleteCity(request,response);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            case "edit":
+                showEditForm(request,response);
                 break;
             default:
                 showAllCity(request,response);
@@ -97,11 +108,15 @@ public class CityController extends HttpServlet {
                 && validateInput.checkIntInput(gdp) && validateInput.checkStringInput(description)) {
             City city = new City(name, area, population, gdp, description, countryService.getCountryByName(country));
             cityService.addNewCity(city);
-            response.sendRedirect("/City");
+            List<City> cityList = cityService.showAllCity();
+            request.setAttribute("cityList", cityList);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CityList.jsp");
             request.setAttribute("message", "Thêm thành phố thành công!");
+            dispatcher.forward(request, response);
         }else {
-            request.setAttribute("alert", "Nhập sai thông tin, nhập lại!");
             showAddForm(request,response);
+            request.setAttribute("alert", "Nhập sai thông tin, nhập lại!");
+
         }
     }
 
@@ -111,7 +126,43 @@ public class CityController extends HttpServlet {
         List<City> cityList = cityService.showAllCity();
         request.setAttribute("cityList", cityList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/CityList.jsp");
-        dispatcher.forward(request, response);
         request.setAttribute("message", "Xóa thành công!");
+        dispatcher.forward(request, response);
+
+    }
+
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        City city = cityService.getCityById(id);
+        List<Country> countryList = countryService.getAllCountry();
+        request.setAttribute("countryList", countryList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/EditForm.jsp");
+        request.setAttribute("city", city);
+        dispatcher.forward(request, response);
+    }
+
+    private void editCityInformation(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        String name = request.getParameter("name");
+        float area = Float.parseFloat(request.getParameter("area"));
+        int population = Integer.parseInt(request.getParameter("population"));
+        int gdp = Integer.parseInt(request.getParameter("gdp"));
+        String description = request.getParameter("description");
+        String country = request.getParameter("country");
+        if (validateInput.checkStringInput(name) && validateInput.checkStringInput(country)
+                && validateInput.checkFloatInput(area) && validateInput.checkIntInput(population)
+                && validateInput.checkIntInput(gdp) && validateInput.checkStringInput(description)) {
+            City city = new City(name, area, population, gdp, description, countryService.getCountryByName(country));
+            cityService.editCityInformation(city);
+            List<City> cityList = cityService.showAllCity();
+            request.setAttribute("cityList", cityList);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/CityList.jsp");
+            request.setAttribute("message", "Thay đổi thông tin thành phố thành công!");
+            dispatcher.forward(request, response);
+        }else {
+            showEditForm(request,response);
+            request.setAttribute("alert", "Nhập sai thông tin, nhập lại!");
+        }
+
+
     }
 }

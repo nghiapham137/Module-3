@@ -40,34 +40,37 @@
                     <td><c:out value="${list.country.getCountryName()}"/></td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <a type="button" class="btn btn-primary">Chỉnh sửa</a>
-                            <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAlert">Xóa</a>
-                            <div class="modal fade" id="deleteAlert" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <a type="button" class="btn btn-primary" href="/City?action=edit&id=${list.id}">Chỉnh sửa</a>
+                            <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAlert${list.id}">Xóa</a>
+                            <div class="modal fade" id="deleteAlert${list.id}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="staticBackdropLabel">Xóa thành phố </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Bạn có chắc chắn muốn xóa thành phố: <c:out value="${list.cityName}"/>?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a type="submit" class="btn btn-primary" href="/City?action=delete&id=${list.id}">Xóa</a>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        </div>
+                                        <form action="/City?action=delete&id=${list.id}" method="post">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">Xóa thành phố </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn có chắc chắn muốn xóa thành phố: <c:out value="${list.cityName}"/>?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Xóa</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </form>
+
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-
 
     </div>
 

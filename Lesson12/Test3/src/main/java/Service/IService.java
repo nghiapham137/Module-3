@@ -9,7 +9,7 @@ public interface IService {
     List<City> showAllCity();
     City getCityById(int id);
     boolean addNewCity(City city);
-    boolean editCityInformation(int id);
+    boolean editCityInformation(City city) throws SQLException;
     boolean deleteCity(int id) throws SQLException;
 
 }

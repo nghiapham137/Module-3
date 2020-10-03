@@ -14,18 +14,22 @@
 </head>
 <body>
     <div class="container">
-        <h1>Thành phố ${city.cityName}</h1>
-        <a class="btn btn-primary" href="/City" role="button">Xem danh sách thành phố</a>
-        <br>
-        <p>Tên: ${city.cityName}</p>
-        <p>Quốc gia: ${city.country.getCountryName()}</p>
-        <p>Diện tích: ${city.area}</p>
-        <p>Dân số: ${city.population}</p>
-        <p>GDP: ${city.GDP}</p>
-        <p>Giới thiệu: </p>
-        <p>${city.description}</p>
-        <a class="btn btn-primary" href="#" role="button">Chỉnh sửa</a>
-        <a class="btn btn-danger" href="#" role="button">Xóa</a>
+        <form method="post" action="/City?action=delete&id=${city.id}">
+            <h1>Thành phố ${city.cityName}</h1>
+            <a class="btn btn-primary" href="/City" role="button">Xem danh sách thành phố</a>
+            <br>
+            <p>Tên: ${city.cityName}</p>
+            <p>Quốc gia: ${city.country.getCountryName()}</p>
+            <p>Diện tích: ${city.area}</p>
+            <p>Dân số: ${city.population}</p>
+            <p>GDP: ${city.GDP}</p>
+            <p>Giới thiệu: </p>
+            <p>${city.description}</p>
+            <a class="btn btn-primary" href="/City?action=edit&id=${city.id}" role="button">Chỉnh sửa</a>
+            <button type="submit" class="btn btn-danger"  role="button">Xóa</button>
+        </form>
+
+
     </div>
 
 

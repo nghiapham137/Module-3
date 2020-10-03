@@ -90,8 +90,21 @@ public class CityService implements IService {
     }
 
     @Override
-    public boolean editCityInformation(int id) {
-        return false;
+    public boolean editCityInformation(City city) throws SQLException {
+        boolean isEdited;
+        String query = "UPDATE city SET name=?, area=?, population=?, gdp=?, description=?, country_id = ? WHERE id=?;";
+        try (Connection connection = getConnection();
+        PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setString(1,city.getCityName());
+            ps.setFloat(2, city.getArea());
+            ps.setInt(3, city.getPopulation());
+            ps.setInt(4, city.getGDP());
+            ps.setString(5,city.getDescription());
+            ps.setInt(6, city.getCountry().getCountryId());
+            ps.setInt(7,city.getId());
+            isEdited = ps.executeUpdate() > 0;
+        }
+        return isEdited;
     }
 
     @Override
