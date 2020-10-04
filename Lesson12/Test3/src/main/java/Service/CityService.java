@@ -91,7 +91,7 @@ public class CityService implements IService {
 
     @Override
     public boolean editCityInformation(City city) throws SQLException {
-        boolean isEdited;
+        boolean isEdited = false;
         String query = "UPDATE city SET name=?, area=?, population=?, gdp=?, description=?, country_id = ? WHERE id=?;";
         try (Connection connection = getConnection();
         PreparedStatement ps = connection.prepareStatement(query)){

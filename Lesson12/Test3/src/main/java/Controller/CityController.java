@@ -142,22 +142,32 @@ public class CityController extends HttpServlet {
     }
 
     private void editCityInformation(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         float area = Float.parseFloat(request.getParameter("area"));
         int population = Integer.parseInt(request.getParameter("population"));
         int gdp = Integer.parseInt(request.getParameter("gdp"));
         String description = request.getParameter("description");
-        String country = request.getParameter("country");
-        if (validateInput.checkStringInput(name) && validateInput.checkStringInput(country)
+        int country_id = Integer.parseInt(request.getParameter("country"));
+        if (validateInput.checkStringInput(name) && validateInput.checkIntInput(country_id)
                 && validateInput.checkFloatInput(area) && validateInput.checkIntInput(population)
                 && validateInput.checkIntInput(gdp) && validateInput.checkStringInput(description)) {
-            City city = new City(name, area, population, gdp, description, countryService.getCountryByName(country));
-            cityService.editCityInformation(city);
-            List<City> cityList = cityService.showAllCity();
-            request.setAttribute("cityList", cityList);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/CityList.jsp");
-            request.setAttribute("message", "Thay đổi thông tin thành phố thành công!");
-            dispatcher.forward(request, response);
+            City city = new City(id,name, area, population, gdp, description, countryService.getCountryById(country_id));
+            if (cityService.editCityInformation(city)) {
+                request.setAttribute("message", "Thay đổi thông tin thành phố thành công!");
+                response.sendRedirect("/City");
+
+            }else {
+                showEditForm(request,response);
+                request.setAttribute("alert", "Update ko thành công!");
+            }
+
+//            List<City> cityList = cityService.showAllCity();
+//            request.setAttribute("cityList", cityList);
+//            RequestDispatcher dispatcher = request.getRequestDispatcher("/CityList.jsp");
+
+
+//            dispatcher.forward(request, response);
         }else {
             showEditForm(request,response);
             request.setAttribute("alert", "Nhập sai thông tin, nhập lại!");

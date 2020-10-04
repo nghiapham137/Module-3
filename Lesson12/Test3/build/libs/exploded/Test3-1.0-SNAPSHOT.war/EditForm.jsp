@@ -18,6 +18,10 @@
     <br>
     <form method="post">
         <div class="form-group">
+            <label for="id" hidden>id</label>
+            <input type="text" class="form-control" id="id" placeholder="tên" name="id" required value="${city.id}" hidden>
+        </div>
+        <div class="form-group">
             <label for="name">Tên</label>
             <input type="text" class="form-control" id="name" placeholder="tên" name="name" required value="${city.cityName}">
         </div>
@@ -25,7 +29,10 @@
             <label for="country">Quốc gia</label>
             <select class="form-control" id="country" name="country">
                 <c:forEach var="list" items="${countryList}">
-                    <option><c:out value="${list.countryName}"/></option>
+                    <c:if test="${city.country.getCountryId() == list.countryId}">
+                        <option value="${list.countryId}" selected><c:out value="${list.countryName}"/></option>
+                    </c:if>
+                        <option value="${list.countryId}"><c:out value="${list.countryName}"/></option>
                 </c:forEach>
             </select>
         </div>
